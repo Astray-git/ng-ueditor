@@ -28,3 +28,8 @@ gulp.task(
             .pipe(gulp.dest(DIST));
     }
 );
+
+gulp.task(
+    'default',
+    ['build']
+);
