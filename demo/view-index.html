@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>index</p>
+        <form method="post">
+            <textarea
+                ng-ueditor="Controller.ueditorConfig"
+                ready="Controller.ready"
+                ng-model="Controller.ueditorContent"
+                ng-change="Controller.updateHtml()"
+            ></textarea>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>Result from <code>getContent</code>:</p>
+        <div ng-bind-html="Controller.ueditorHtml"></div>
+    </div>
+</div>

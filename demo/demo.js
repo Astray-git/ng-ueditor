@@ -2,12 +2,16 @@
 'use strict';
 
 var demo_controller = function (
-    $sce
+    $sce,
+    $state
 ) {
     var controller = this;
+    // initial value
+    controller.ueditorContent = 'Angular UEditor, current state: ' +
+        $state.current.name;
 
     controller.updateHtml = function() {
-        controller.ueditorHtml = $sce.trustAsHtml(controller.ueditor);
+        controller.ueditorHtml = $sce.trustAsHtml(controller.ueditorContent);
     };
 
     controller.ueditorConfig = {
@@ -23,21 +27,72 @@ var demo_controller = function (
             'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
             'preview', 'searchreplace'
         ]],
-        initialContent: 'Angular UEditor'
+        enableContextMenu: false,
+        enableAutoSave: false,
+        lang: 'zh-cn'
     };
 
     controller.ready = function(editor){
-        alert('UEditor ready!');
+        console.debug('UEditor ready!');
     };
 };
 
-angular.module('ng.ueditor').controller(
+var state_config = function (
+    $urlRouterProvider,
+    $stateProvider
+) {
+    $urlRouterProvider.otherwise('/demo');
+
+    $stateProvider
+        .state(
+            'demo',
+            {
+                url: '/demo',
+                templateUrl: 'demo/view-index.html',
+                controller: 'DemoController',
+                controllerAs: 'Controller'
+            }
+        )
+        .state(
+            'route',
+            {
+                url: '/route',
+                templateUrl: 'demo/view-route1.html',
+                controller: 'RouteController',
+                controllerAs: 'Controller'
+            }
+        )
+    ;
+};
+
+angular.module(
+    'ng.ueditor.example',
+    [
+        'ng.ueditor',
+        'ui.router'
+    ]
+).controller(
     'DemoController',
     [
         '$sce',
+        '$state',
         demo_controller
     ]
-);
+).controller(
+    'RouteController',
+    [
+        '$sce',
+        '$state',
+        demo_controller
+    ]
+).config(
+    [
+        '$urlRouterProvider',
+        '$stateProvider',
+        state_config
+    ]
+)
+;
 
 }());
 
