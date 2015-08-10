@@ -4,7 +4,8 @@
 var ng_ueditor_directive = function (
     $window,
     $log,
-    $sce
+    $sce,
+    $rootScope
 ) {
     var generatedId = 0;
     var ID_PREFIX = 'ng-ueditor';
@@ -22,8 +23,10 @@ var ng_ueditor_directive = function (
         var editorInstance;
         var editorReady = false;
         var ngModel = ctrls[0];
+        // attributes options
         var customOptions = scope.$eval(attrs.ngUeditor);
         var customReady = scope.$eval(attrs.ready);
+        var allHtml = attrs.allHtml !== undefined;
 
         // generate an ID
         var currentId = ID_PREFIX + '-' + generatedId++;
@@ -32,13 +35,35 @@ var ng_ueditor_directive = function (
         /**
          * update ngModel view
          * @method update_view
+         * @param {String} content updated content
+         * @private
          */
-        var update_view = function (editor) {
+        var update_view = function (content) {
+            ngModel.$setViewValue(content);
+            $rootScope.$applyAsync();
+        };
+
+        /**
+         * update ngModel view with editor content
+         * @method update_view
+         * @private
+         */
+        var update_view_with_content = function (editor) {
+            var content = editor.getContent().trim();
+            content = $sce.trustAsHtml(content);
+            update_view(content);
+        };
+
+        /**
+         * update ngModel view with full html page
+         * @method update_view_with_all_html
+         * @private
+         */
+        var update_view_with_all_html = function (editor) {
             var content = editor.getAllHtml().trim();
             content = $sce.trustAsHtml(content);
+            update_view(content);
 
-            ngModel.$setViewValue(content);
-            scope.$applyAsync();
         };
 
         ngModel.$formatters.unshift(function(modelValue) {
@@ -53,15 +78,14 @@ var ng_ueditor_directive = function (
             var viewValue = ngModel.$viewValue ?
                 $sce.getTrustedHtml(ngModel.$viewValue) : '';
 
-            // instance.getDoc() check is a guard against null value
-            // when destruction & recreation of instances happen
+
             if (editorInstance !== undefined &&
                 editorReady === true
             ) {
                 editorInstance.setContent(viewValue);
-                // Triggering change event due to TinyMCE not firing event &
-                // becoming out of sync for change callbacks
-                //editorInstance.fireEvent("selectionchange");
+                // trigger contentChange event for initial ngModel render,
+                // due to TinyMCE not firing event
+                editorInstance.fireEvent('contentChange');
             }
         };
 
@@ -77,29 +101,49 @@ var ng_ueditor_directive = function (
          */
         var ready_callback = function () {
             editorReady = true;
-            editorInstance.addListener(
-                'ready',
-                function () {
-                    ngModel.$render();
-                    ngModel.$setPristine();
-                }
-            );
+
+            var update_callback = allHtml === true ?
+                update_view_with_all_html.bind(
+                    undefined,
+                    editorInstance
+                ) :
+                update_view_with_content.bind(
+                    undefined,
+                    editorInstance
+                )
+            ;
+
+            // set up listeners
             editorInstance.addListener(
                 'afterExecCommand',
-                function () {
-                    update_view(editorInstance);
-                }
+                update_callback
             );
             editorInstance.addListener(
                 'contentChange',
-                function () {
-                    update_view(editorInstance);
-                }
+                update_callback
             );
 
+            // temporary fix enableAutoSave option in ueditor 1.4.3
+            // https://github.com/fex-team/ueditor/issues/1421
+            if (customOptions.enableAutoSave === false) {
+                editorInstance.addListener(
+                    'showmessage',
+                    function(type, m){
+                        if (m.content === '本地保存成功') {
+                            return true;
+                        }
+                    }
+                );
+            }
+
+            // call optional custom ready callback
             if (angular.isFunction(customReady)) {
                 customReady(editorInstance);
             }
+
+            // trigger initial ngModel render
+            ngModel.$render();
+            ngModel.$setPristine();
         };
 
         editorInstance.ready(
@@ -128,6 +172,7 @@ angular.module('ng.ueditor', [])
             '$window',
             '$log',
             '$sce',
+            '$rootScope',
             ng_ueditor_directive
         ]
     )
