@@ -26,7 +26,7 @@ add ng-ueditor module as a depenency:
 angular.module('myModule', ['ng.ueditor']);
 ```
 
-use as a directive, you must provide a `ng-model` for view data biding, don't put `id` attribute.
+use as a directive, you must provide a `ng-model` for view data biding, you can put specific id for multiple editor.
 ```
 <textarea
     ng-ueditor="Controller.ueditorConfig"

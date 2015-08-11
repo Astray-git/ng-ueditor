@@ -1,3 +1,4 @@
+/* global UE */
 (function () {
 'use strict';
 
@@ -28,9 +29,14 @@ var ng_ueditor_directive = function (
         var customReady = scope.$eval(attrs.ready);
         var allHtml = attrs.allHtml !== undefined;
 
-        // generate an ID
-        var currentId = ID_PREFIX + '-' + generatedId++;
-        attrs.$set('id', currentId);
+        // use existing id or generate an ID
+        var currentId;
+        if (attrs.id !== undefined) {
+            currentId = attrs.id;
+        } else {
+            currentId = ID_PREFIX + '-' + generatedId++;
+            attrs.$set('id', currentId);
+        }
 
         /**
          * update ngModel view
@@ -138,7 +144,13 @@ var ng_ueditor_directive = function (
 
             // call optional custom ready callback
             if (angular.isFunction(customReady)) {
-                customReady(editorInstance);
+                customReady(
+                    editorInstance,
+                    scope,
+                    element,
+                    attrs,
+                    ngModel
+                );
             }
 
             // trigger initial ngModel render
