@@ -38,6 +38,11 @@ use as a directive, you must provide a `ng-model` for view data biding, you can 
 ### custom options
 - `ng-ueditor` add custom config.
 - `ready` (optional) add custom on ready callback.
+
+    callback will be invoked with these attributes:
+
+     `editorInstance`, link function attributes: `scope`, `element`, `attrs` and `ngModel`
+
 - `all-html` (optional) normally result is get from [`UE.Editor.getContent`](http://ueditor.baidu.com/doc/#UE.Editor:getContent%28%29) use this attribute tell ueditor to return all html using [`UE.Editor.getAllHtml`](http://ueditor.baidu.com/doc/#UE.Editor:getAllHtml%28%29), result including some ueditor style blocks.
 
 ## Building
