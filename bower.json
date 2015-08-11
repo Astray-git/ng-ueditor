@@ -4,7 +4,7 @@
   "description": "AngularJS directive for UEditor.",
   "author": "https://github.com/astray-git/ng-ueditor/graphs/contributors",
   "license": "MIT",
-  "main": "./dist/ng_ueditor.min.js",
+  "main": "./dist/ng-ueditor.min.js",
   "ignore": [
     "**/.*",
     "node_modules",
