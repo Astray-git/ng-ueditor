@@ -31,5 +31,5 @@ gulp.task(
 
 gulp.task(
     'default',
-    ['build']
+    ['jshint', 'build']
 );
