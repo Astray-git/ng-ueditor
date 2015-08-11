@@ -2,9 +2,9 @@
   "name": "ng-ueditor",
   "version": "0.0.1",
   "description": "AngularJS directive for UEditor.",
-  "author": "https://github.com/angular-ui/ui-tinymce/graphs/contributors",
+  "author": "https://github.com/astray-git/ng-ueditor/graphs/contributors",
   "license": "MIT",
-  "main": "dist/directive_ueditor.min.js",
+  "main": "dist/ng-ueditor.min.js",
   "dependencies": {},
   "devDependencies": {
     "gulp": "~3.9.0",
@@ -17,6 +17,6 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/angular-ui/ui-tinymce.git"
+    "url": "git://github.com/astray-git/ng-ueditor.git"
   }
 }

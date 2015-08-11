@@ -1,6 +1,6 @@
 {
   "name": "ng-ueditor",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "AngularJS directive for UEditor.",
   "author": "https://github.com/astray-git/ng-ueditor/graphs/contributors",
   "license": "MIT",
