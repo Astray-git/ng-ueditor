@@ -10,6 +10,7 @@
     "node_modules",
     "components",
     "demo*",
+    "index.html",
     "gulpfile.js",
     "package.json"
   ],
