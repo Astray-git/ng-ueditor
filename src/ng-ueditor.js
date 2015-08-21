@@ -56,7 +56,6 @@ var ng_ueditor_directive = function (
          */
         var update_view_with_content = function (editor) {
             var content = editor.getContent().trim();
-            content = $sce.trustAsHtml(content);
             update_view(content);
         };
 
@@ -67,22 +66,20 @@ var ng_ueditor_directive = function (
          */
         var update_view_with_all_html = function (editor) {
             var content = editor.getAllHtml().trim();
-            content = $sce.trustAsHtml(content);
             update_view(content);
 
         };
 
-        ngModel.$formatters.unshift(function(modelValue) {
-            return modelValue ? $sce.trustAsHtml(modelValue) : '';
+        ngModel.$formatters.unshift(function(viewValue) {
+            return viewValue ? $sce.trustAsHtml(viewValue) : '';
         });
 
-        ngModel.$parsers.unshift(function(viewValue) {
-            return viewValue ? $sce.getTrustedHtml(viewValue) : '';
+        ngModel.$parsers.unshift(function(modelValue) {
+            return modelValue ? $sce.getTrustedHtml(modelValue) : '';
         });
 
         ngModel.$render = function() {
-            var viewValue = ngModel.$viewValue ?
-                $sce.getTrustedHtml(ngModel.$viewValue) : '';
+            var viewValue = $sce.getTrustedHtml(ngModel.$viewValue || '');
 
 
             if (editorInstance !== undefined &&
