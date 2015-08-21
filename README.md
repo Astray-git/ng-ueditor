@@ -1,5 +1,5 @@
 # ng-ueditor
-This directive allows you to add a TinyMCE editor to your form elements.
+This directive allows you to add a [UEditor](http://ueditor.baidu.com/) to your form elements.
 
 ## [Demo](http://astray-git.github.io/ng-ueditor)
 
@@ -12,7 +12,7 @@ This directive allows you to add a TinyMCE editor to your form elements.
 bower install ng-ueditor --save
 ```
 
-## usage
+## Usage
 Load the script files:
 ```
 <script type="text/javascript" src="app/bower_components/ueditor-bower/ueditor.config.js"></script>
@@ -26,7 +26,7 @@ add ng-ueditor module as a depenency:
 angular.module('myModule', ['ng.ueditor']);
 ```
 
-use as a directive, you must provide a `ng-model` for view data biding, you can put specific id for multiple editor.
+use as a directive, you must provide a `ng-model` for view data biding, you can put specific id for multiple editors.
 ```
 <textarea
     ng-ueditor="Controller.ueditorConfig"
