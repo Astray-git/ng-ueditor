@@ -7,7 +7,7 @@ var demo_controller = function (
 ) {
     var controller = this;
     // initial value
-    controller.ueditorContent = 'Angular UEditor, current state: ' +
+    controller.ueditorContent = 'ng-ueditor, current state: ' +
         $state.current.name;
 
     controller.updateHtml = function() {
@@ -29,7 +29,7 @@ var demo_controller = function (
         ]],
         enableContextMenu: false,
         enableAutoSave: false,
-        lang: 'zh-cn'
+        lang: 'en'
     };
 
     controller.ready = function(editor){

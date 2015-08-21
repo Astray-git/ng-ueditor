@@ -1,13 +1,18 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <p>index</p>
-        <form method="post">
+        <form name="testForm" method="post">
             <textarea
                 ng-ueditor="Controller.ueditorConfig"
                 ready="Controller.ready"
+                name="text"
                 ng-model="Controller.ueditorContent"
                 ng-change="Controller.updateHtml()"
+                ng-maxlength="40"
             ></textarea>
+            <div ng-if="testForm.text.$error.maxlength">
+                content reached max-length 40
+            </div>
         </form>
     </div>
 </div>
@@ -15,5 +20,8 @@
     <div class="panel-body">
         <p>Result from <code>getContent</code>:</p>
         <div ng-bind-html="Controller.ueditorHtml"></div>
+        <div ng-if="testForm.text.$error.maxlength">
+            undefined, invalid form
+        </div>
     </div>
 </div>
