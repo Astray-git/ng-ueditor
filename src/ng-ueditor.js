@@ -67,15 +67,10 @@ var ng_ueditor_directive = function (
         var update_view_with_all_html = function (editor) {
             var content = editor.getAllHtml().trim();
             update_view(content);
-
         };
 
         ngModel.$formatters.unshift(function(viewValue) {
             return viewValue ? $sce.trustAsHtml(viewValue) : '';
-        });
-
-        ngModel.$parsers.unshift(function(modelValue) {
-            return modelValue ? $sce.getTrustedHtml(modelValue) : '';
         });
 
         ngModel.$render = function() {
