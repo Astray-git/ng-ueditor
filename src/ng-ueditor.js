@@ -122,12 +122,16 @@ var ng_ueditor_directive = function (
             );
 
             // temporary fix enableAutoSave option in ueditor 1.4.3
+            // covered language: zh-cn and en
             // https://github.com/fex-team/ueditor/issues/1421
             if (customOptions.enableAutoSave === false) {
                 editorInstance.addListener(
                     'showmessage',
                     function(type, m){
-                        if (m.content === '本地保存成功') {
+                        if (
+                            m.content === '本地保存成功' ||
+                            m.content === 'Local conservation success'
+                        ) {
                             return true;
                         }
                     }
