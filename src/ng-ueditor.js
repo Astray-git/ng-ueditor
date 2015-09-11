@@ -25,7 +25,7 @@ var ng_ueditor_directive = function (
         var editorReady = false;
         var ngModel = ctrls[0];
         // attributes options
-        var customOptions = scope.$eval(attrs.ngUeditor);
+        var customOptions = scope.$eval(attrs.ngUeditor) || {};
         var customReady = scope.$eval(attrs.ready);
         var allHtml = attrs.allHtml !== undefined;
 
