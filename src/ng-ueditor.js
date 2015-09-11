@@ -29,7 +29,6 @@ var ng_ueditor_directive = function (
                 return;
             }
             var editorInstance;
-            var editorReady = false;
             var ngModel = ctrls[0];
             // attributes options
             var customOptions = scope.$eval(attrs.ngUeditor) || {};
@@ -92,8 +91,9 @@ var ng_ueditor_directive = function (
             ngModel.$render = function() {
                 var viewValue = $sce.getTrustedHtml(ngModel.$viewValue || '');
 
-                if (editorInstance !== undefined &&
-                    editorReady === true
+                if (
+                    editorInstance !== undefined &&
+                    editorInstance.isReady === 1
                 ) {
                     editorInstance.setContent(viewValue);
                     // trigger contentChange event for initial ngModel render,
@@ -113,7 +113,6 @@ var ng_ueditor_directive = function (
              * @method ready_callback
              */
             var ready_callback = function () {
-                editorReady = true;
 
                 var update_callback = allHtml === true ?
                     update_view_with_all_html.bind(
@@ -168,10 +167,13 @@ var ng_ueditor_directive = function (
             );
 
             scope.$on('$destroy', function() {
-                if (editorInstance !== undefined) {
+                if (
+                    editorInstance !== undefined &&
+                    editorInstance.isReady === 1
+                ) {
                     UE.delEditor(currentId);
-                    editorInstance = undefined;
                 }
+                editorInstance = undefined;
             });
         };
     };
