@@ -32,8 +32,12 @@ var demo_controller = function (
         lang: 'en'
     };
 
-    controller.ready = function(editor){
-        console.debug('UEditor ready!');
+    controller.ready = function(editorInstance){
+        console.debug(
+            'UEditor ' +
+            editorInstance.uid +
+            ' ready!'
+        );
     };
 };
 

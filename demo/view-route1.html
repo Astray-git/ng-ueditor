@@ -4,7 +4,7 @@
         <form method="post">
             <textarea
                 ng-ueditor="Controller.ueditorConfig"
-                ready="Controller.ready"
+                ready="Controller.ready($editor)"
                 ng-model="Controller.ueditorContent"
                 ng-change="Controller.updateHtml()"
             ></textarea>

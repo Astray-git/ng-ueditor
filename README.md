@@ -30,19 +30,14 @@ use as a directive, you must provide a `ng-model` for view data biding, you can 
 ```
 <textarea
     ng-ueditor="Controller.ueditorConfig"
-    ready="Controller.ready"
+    ready="Controller.ready($editor)"
     ng-model="Controller.ueditorContent"
 ></textarea>
 ```
 
 ### custom options
 - `ng-ueditor` add custom config.
-- `ready` (optional) add custom on ready callback.
-
-    callback will be invoked with these attributes:
-
-     `editorInstance`, link function attributes: `scope`, `element`, `attrs` and `ngModel`
-
+- `ready` (optional) **Breaking change since 0.3** now accept an expression to evaluate upon editor ready (editor instance available as `$editor`)
 - `all-html` (optional) normally result is get from [`UE.Editor.getContent`](http://ueditor.baidu.com/doc/#UE.Editor:getContent%28%29) use this attribute tell ueditor to return all html using [`UE.Editor.getAllHtml`](http://ueditor.baidu.com/doc/#UE.Editor:getAllHtml%28%29), result including some ueditor style blocks.
 
 ## Building
